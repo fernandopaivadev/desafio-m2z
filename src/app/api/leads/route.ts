@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
                 "Content-Type": "application/json",
                 "apikey": supabaseAnonKey,
                 "Authorization": `Bearer ${supabaseAnonKey}`,
+                "Prefer": "return=representation",
             },
             body: JSON.stringify({
                 nome,
@@ -37,17 +38,19 @@ export async function POST(request: NextRequest) {
             }),
         });
 
+        const data = await res.json();
+        
         if (!res.ok) {
-            const error = await res.json();
+            console.log("REST API error:", res.status, data);
             return NextResponse.json(
-                { error: error.message || "Erro ao salvar lead" },
+                { error: data.message || "Erro ao salvar lead" },
                 { status: 500 },
             );
         }
 
-        const data = await res.json();
         return NextResponse.json({ success: true, data });
     } catch (e) {
+        console.log("Exception:", e);
         return NextResponse.json({ error: "Erro interno" }, { status: 500 });
     }
 }
