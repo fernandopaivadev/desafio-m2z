@@ -27,7 +27,6 @@ export async function POST(request: NextRequest) {
             headers: {
                 "Content-Type": "application/json",
                 "apikey": supabaseAnonKey,
-                "Authorization": `Bearer ${supabaseAnonKey}`,
                 "Prefer": "return=representation",
             },
             body: JSON.stringify({
