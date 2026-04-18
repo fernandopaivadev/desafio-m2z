@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 
 export async function POST(request: NextRequest) {
     try {
@@ -23,35 +22,32 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-            auth: {
-                autoRefreshToken: false,
-                persistSession: false,
+        const res = await fetch(`${supabaseUrl}/rest/v1/leads`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "apikey": supabaseAnonKey,
+                "Authorization": `Bearer ${supabaseAnonKey}`,
             },
-            global: {
-                headers: {
-                    "apikey": supabaseAnonKey,
-                    "Authorization": `Bearer ${supabaseAnonKey}`,
-                },
-            },
+            body: JSON.stringify({
+                nome,
+                email,
+                telefone,
+                necessidade,
+            }),
         });
 
-        const { data, error } = await supabase
-            .from("leads")
-            .insert([{ nome, email, telefone, necessidade }])
-            .select()
-            .single();
-
-        if (error) {
+        if (!res.ok) {
+            const error = await res.json();
             return NextResponse.json(
                 { error: error.message || "Erro ao salvar lead" },
                 { status: 500 },
             );
         }
 
+        const data = await res.json();
         return NextResponse.json({ success: true, data });
     } catch (e) {
-        console.log("Exception:", e);
         return NextResponse.json({ error: "Erro interno" }, { status: 500 });
     }
 }
