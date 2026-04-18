@@ -36,6 +36,8 @@ export async function POST(request: NextRequest) {
             .select()
             .single();
 
+        console.log("data:", data, "error:", error);
+
         if (error) {
             return NextResponse.json(
                 { error: error.message || "Erro ao salvar lead" },
