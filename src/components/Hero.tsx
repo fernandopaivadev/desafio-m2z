@@ -8,6 +8,11 @@ export default function Hero() {
         contato?.scrollIntoView({ behavior: "smooth" });
     };
 
+    const scrollToPortfolio = () => {
+        const portfolio = document.getElementById("portfolio");
+        portfolio?.scrollIntoView({ behavior: "smooth" });
+    };
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-950">
             <div className="absolute inset-0 bg-linear-to-br from-zinc-950 via-zinc-900 to-zinc-950" />
@@ -31,9 +36,14 @@ export default function Hero() {
                     únicas.
                 </p>
 
-                <Button onClick={scrollToContato} size="lg" className="text-lg">
-                    CONHEÇA NOSSO PORTFÓLIO
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button onClick={scrollToPortfolio} size="lg" className="text-lg">
+                        CONHEÇA NOSSO PORTFÓLIO
+                    </Button>
+                    <Button onClick={scrollToContato} size="lg" variant="outline" className="text-lg">
+                        FALE CONOSCO
+                    </Button>
+                </div>
             </div>
 
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">

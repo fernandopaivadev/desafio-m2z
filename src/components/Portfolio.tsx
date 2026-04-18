@@ -8,7 +8,7 @@ const videos = [
 
 export default function Portfolio() {
     return (
-        <section className="py-20 bg-zinc-900">
+        <section id="portfolio" className="py-20 bg-zinc-900">
             <div className="max-w-6xl mx-auto px-6">
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-4">
                     Portfólio

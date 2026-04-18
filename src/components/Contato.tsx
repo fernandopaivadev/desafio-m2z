@@ -72,8 +72,21 @@ export default function Contato() {
         }
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
     return (
-        <section id="contato" className="py-20 bg-zinc-950">
+        <section id="contato" className="py-20 bg-zinc-950 relative">
+            <button
+                onClick={scrollToTop}
+                className="absolute bottom-8 right-8 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-black hover:bg-yellow-400 transition-colors cursor-pointer"
+                aria-label="Voltar ao topo"
+            >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+            </button>
             <div className="max-w-6xl mx-auto px-6">
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
                     Contato

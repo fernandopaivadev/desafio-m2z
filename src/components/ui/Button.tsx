@@ -22,7 +22,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref,
     ) => {
         const baseStyles =
-            "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed";
+            "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
         const variants = {
             primary: "bg-yellow-500 text-black hover:bg-yellow-400",
