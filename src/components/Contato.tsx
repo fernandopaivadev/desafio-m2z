@@ -7,18 +7,14 @@ import Select from "./ui/Select";
 import { NECESSIDADE_OPTIONS } from "@/lib/types";
 
 const contatoInfo = {
-    endereco:
-        "Rua Coronel Joaquim Ignácio Taborda Ribas - 212, Bigorrilho, Curitiba - PR CEP 80730-320, Brasil",
+    endereco: "Rua Coronel Joaquim Ignácio Taborda Ribas - 212, Bigorrilho, Curitiba - PR CEP 80730-320, Brasil",
     email: "contato@motinfilms.com.br",
     telefone: "+55 41 9142-5126",
     redes: [
         { nome: "Instagram", url: "https://www.instagram.com/motinfilms" },
         { nome: "TikTok", url: "https://www.tiktok.com/@motinfilms" },
         { nome: "Facebook", url: "https://www.facebook.com/motinfilms" },
-        {
-            nome: "LinkedIn",
-            url: "https://www.linkedin.com/company/93245114/admin/dashboard",
-        },
+        { nome: "LinkedIn", url: "https://www.linkedin.com/company/93245114/admin/dashboard" },
     ],
 };
 
@@ -29,10 +25,30 @@ export default function Contato() {
         telefone: "",
         necessidade: "",
     });
-    const [status, setStatus] = useState<
-        "idle" | "loading" | "success" | "error"
-    >("idle");
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMsg, setErrorMsg] = useState("");
+
+    const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const rawValue = e.target.value;
+        const digits = rawValue.replace(/\D/g, "");
+        
+        if (rawValue === "" || digits === "") {
+            setFormData({ ...formData, telefone: "" });
+            return;
+        }
+        
+        let value = digits.slice(0, 11);
+        let formatted = "";
+        
+        for (let i = 0; i < value.length; i++) {
+            if (i === 0) formatted += "(";
+            if (i === 2) formatted += ") ";
+            if (i === 7) formatted += "-";
+            formatted += value[i];
+        }
+        
+        setFormData({ ...formData, telefone: formatted });
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -66,42 +82,26 @@ export default function Contato() {
                 <div className="grid md:grid-cols-2 gap-12">
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-xl font-bold text-white mb-2">
-                                Endereço
-                            </h3>
-                            <p className="text-zinc-400">
-                                {contatoInfo.endereco}
-                            </p>
+                            <h3 className="text-xl font-bold text-white mb-2">Endereço</h3>
+                            <p className="text-zinc-400">{contatoInfo.endereco}</p>
                         </div>
 
                         <div>
-                            <h3 className="text-xl font-bold text-white mb-2">
-                                E-mail
-                            </h3>
-                            <a
-                                href={`mailto:${contatoInfo.email}`}
-                                className="text-yellow-500 hover:underline"
-                            >
+                            <h3 className="text-xl font-bold text-white mb-2">E-mail</h3>
+                            <a href={`mailto:${contatoInfo.email}`} className="text-yellow-500 hover:underline">
                                 {contatoInfo.email}
                             </a>
                         </div>
 
                         <div>
-                            <h3 className="text-xl font-bold text-white mb-2">
-                                Telefone
-                            </h3>
-                            <a
-                                href={`tel:${contatoInfo.telefone}`}
-                                className="text-yellow-500 hover:underline"
-                            >
+                            <h3 className="text-xl font-bold text-white mb-2">Telefone</h3>
+                            <a href={`tel:${contatoInfo.telefone}`} className="text-yellow-500 hover:underline">
                                 {contatoInfo.telefone}
                             </a>
                         </div>
 
                         <div>
-                            <h3 className="text-xl font-bold text-white mb-4">
-                                Redes Sociais
-                            </h3>
+                            <h3 className="text-xl font-bold text-white mb-4">Redes Sociais</h3>
                             <div className="flex flex-wrap gap-4">
                                 {contatoInfo.redes.map((rede) => (
                                     <a
@@ -121,29 +121,12 @@ export default function Contato() {
                     <div className="bg-zinc-900 p-8 rounded-xl">
                         {status === "success" ? (
                             <div className="text-center py-12">
-                                <svg
-                                    className="w-16 h-16 text-green-500 mx-auto mb-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M5 13l4 4L19 7"
-                                    />
+                                <svg className="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                 </svg>
-                                <h3 className="text-2xl font-bold text-white mb-2">
-                                    Mensagem enviada!
-                                </h3>
-                                <p className="text-zinc-400">
-                                    Em breve entraremos em contato.
-                                </p>
-                                <button
-                                    onClick={() => setStatus("idle")}
-                                    className="mt-6 text-yellow-500 hover:underline"
-                                >
+                                <h3 className="text-2xl font-bold text-white mb-2">Mensagem enviada!</h3>
+                                <p className="text-zinc-400">Em breve entraremos em contato.</p>
+                                <button onClick={() => setStatus("idle")} className="mt-6 text-yellow-500 hover:underline">
                                     Enviar outra mensagem
                                 </button>
                             </div>
@@ -153,12 +136,7 @@ export default function Contato() {
                                     label="Nome"
                                     id="nome"
                                     value={formData.nome}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            nome: e.target.value,
-                                        })
-                                    }
+                                    onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                                     required
                                     placeholder="Seu nome completo"
                                 />
@@ -168,12 +146,7 @@ export default function Contato() {
                                     id="email"
                                     type="email"
                                     value={formData.email}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            email: e.target.value,
-                                        })
-                                    }
+                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     required
                                     placeholder="seu@email.com.br"
                                 />
@@ -183,43 +156,22 @@ export default function Contato() {
                                     id="telefone"
                                     type="tel"
                                     value={formData.telefone}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            telefone: e.target.value,
-                                        })
-                                    }
-                                    placeholder="(41) 99999-9999"
+                                    onChange={handleTelefoneChange}
+                                    placeholder="(00) 00000-0000"
                                 />
 
                                 <Select
                                     label="Necessidade"
                                     id="necessidade"
                                     value={formData.necessidade}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            necessidade: e.target.value,
-                                        })
-                                    }
+                                    onChange={(e) => setFormData({ ...formData, necessidade: e.target.value })}
                                     required
-                                    options={NECESSIDADE_OPTIONS.map((opt) => ({
-                                        value: opt,
-                                        label: opt,
-                                    }))}
+                                    options={NECESSIDADE_OPTIONS.map((opt) => ({ value: opt, label: opt }))}
                                 />
 
-                                {status === "error" && (
-                                    <p className="text-red-500 text-sm">
-                                        {errorMsg}
-                                    </p>
-                                )}
+                                {status === "error" && <p className="text-red-500 text-sm">{errorMsg}</p>}
 
-                                <Button
-                                    type="submit"
-                                    isLoading={status === "loading"}
-                                    className="w-full"
-                                >
+                                <Button type="submit" isLoading={status === "loading"} className="w-full">
                                     Enviar Mensagem
                                 </Button>
                             </form>
