@@ -19,12 +19,15 @@ export async function POST(request: NextRequest) {
 
         if (!supabaseUrl || !supabaseAnonKey) {
             return NextResponse.json(
-                { error: "Configuração do Supabase incompleta" },
+                { error: "NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY not configured" },
                 { status: 500 },
             );
         }
 
         const cookieStore = await cookies();
+
+        console.log("Supabase URL configured:", !!supabaseUrl);
+        console.log("Supabase key configured:", !!supabaseAnonKey);
 
         const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
             cookies: {
@@ -49,6 +52,9 @@ export async function POST(request: NextRequest) {
             .select()
             .single();
 
+        console.log("Insert result - data:", data);
+        console.log("Insert result - error:", error);
+
         if (error) {
             return NextResponse.json(
                 { error: error.message || "Erro ao salvar lead" },
@@ -57,7 +63,8 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json({ success: true, data });
-    } catch {
+    } catch (e) {
+        console.log("Exception:", e);
         return NextResponse.json({ error: "Erro interno" }, { status: 500 });
     }
 }
