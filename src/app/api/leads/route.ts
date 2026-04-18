@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
 
 export async function POST(request: NextRequest) {
     try {
@@ -24,25 +23,10 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const cookieStore = await cookies();
-
-        console.log("Supabase URL configured:", !!supabaseUrl);
-        console.log("Supabase key configured:", !!supabaseAnonKey);
-
-        const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-            cookies: {
-                getAll() {
-                    return cookieStore.getAll();
-                },
-                setAll(cookiesToSet) {
-                    try {
-                        cookiesToSet.forEach(({ name, value, options }) => {
-                            cookieStore.set(name, value, options);
-                        });
-                    } catch {
-                        // Called from Server Component
-                    }
-                },
+        const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+            auth: {
+                autoRefreshToken: false,
+                persistSession: false,
             },
         });
 
@@ -51,9 +35,6 @@ export async function POST(request: NextRequest) {
             .insert([{ nome, email, telefone, necessidade }])
             .select()
             .single();
-
-        console.log("Insert result - data:", data);
-        console.log("Insert result - error:", error);
 
         if (error) {
             return NextResponse.json(
