@@ -28,6 +28,12 @@ export async function POST(request: NextRequest) {
                 autoRefreshToken: false,
                 persistSession: false,
             },
+            global: {
+                headers: {
+                    "apikey": supabaseAnonKey,
+                    "Authorization": `Bearer ${supabaseAnonKey}`,
+                },
+            },
         });
 
         const { data, error } = await supabase
@@ -35,8 +41,6 @@ export async function POST(request: NextRequest) {
             .insert([{ nome, email, telefone, necessidade }])
             .select()
             .single();
-
-        console.log("data:", data, "error:", error);
 
         if (error) {
             return NextResponse.json(
