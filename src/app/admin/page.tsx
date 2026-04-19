@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
+import LeadsChart from '@/components/LeadsChart';
 
 interface Lead {
   id: string;
@@ -54,6 +55,17 @@ export default function AdminPage() {
 
     checkAuth();
   }, [router]);
+
+  const chartData = useMemo(() => {
+    const grouped: Record<string, number> = {};
+    leads.forEach((lead) => {
+      const date = new Date(lead.created_at).toISOString().split('T')[0];
+      grouped[date] = (grouped[date] || 0) + 1;
+    });
+    return Object.entries(grouped)
+      .map(([date, count]) => ({ date, count }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  }, [leads]);
 
   async function updateStatus(id: string, newStatus: string) {
     try {
@@ -135,6 +147,10 @@ export default function AdminPage() {
       </header>
 
       <main className="max-w-7xl mx-auto p-6">
+        <div className="mb-8">
+          <LeadsChart data={chartData} />
+        </div>
+        
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="p-4 border-b bg-zinc-50">
             <h2 className="text-lg font-semibold text-zinc-900">

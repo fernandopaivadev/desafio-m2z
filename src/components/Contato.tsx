@@ -64,6 +64,13 @@ export default function Contato() {
 
             if (!res.ok) throw new Error("Erro ao enviar");
 
+            console.log("GTM Event: Lead Generated", {
+                nome: formData.nome,
+                email: formData.email,
+                necessidade: formData.necessidade,
+                timestamp: new Date().toISOString(),
+            });
+
             setStatus("success");
             setFormData({ nome: "", email: "", telefone: "", necessidade: "" });
         } catch {
