@@ -83,3 +83,26 @@ Adicione as variáveis de ambiente no painel da Vercel:
 - `npm run dev` - Development server
 - `npm run build` - Build produção
 - `npm run lint` - Verificar lint
+
+---
+
+## Experiência com IA
+
+Este projeto foi desenvolvido com o auxílio do **OpenCode** (IA de programação), o que acelerou bastante o processo.
+
+### Como funcionou:
+- O usuário (desenvolvedor) fornecia as instruções e requisitos
+- A IA implementava o código conforme solicitado
+- Cada funcionalidade era testada e aprovada antes de prosseguir
+- Decisões de design, arquitetura e ajustes eram validadas em conjunto
+- Commits foram feitos de forma semântica e organizada após cada feature ser testada
+
+### Onde a IA ajuda:
+- **Estrutura inicial do projeto** - Configuração automática do Next.js + TypeScript + Tailwind
+- **Criação de componentes** - Geração rápida de todos os componentes da Landing Page
+- **APIs e Backend** - Implementação das rotas de API para leads e autenticação
+- **Integração Supabase** - Cliente Supabase configurado com SSR e policies de RLS
+- **Dashboard Admin** - Página de admin com autenticação e listagem de leads
+- **Melhorias de UX** - Máscara de telefone, gráfico de analytics, botões de navegação
+
+O projeto passou por iterações para resolver desafios como RLS do Supabase e máscaras de input, demonstrando que a colaboração humano-IA resulta em um produto final de qualidade.
