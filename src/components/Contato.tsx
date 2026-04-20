@@ -29,25 +29,24 @@ export default function Contato() {
     const [errorMsg, setErrorMsg] = useState("");
 
     const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const rawValue = e.target.value;
-        const digits = rawValue.replace(/\D/g, "");
+        let value = e.target.value;
+        value = value.replace(/\D/g, "");
+        value = value.slice(0, 11);
         
-        if (rawValue === "" || digits === "") {
+        if (value.length === 0) {
             setFormData({ ...formData, telefone: "" });
             return;
         }
         
-        const value = digits.slice(0, 11);
-        let formatted = "";
-        
-        for (let i = 0; i < value.length; i++) {
-            if (i === 0) formatted += "(";
-            if (i === 2) formatted += ") ";
-            if (i === 7) formatted += "-";
-            formatted += value[i];
+        if (value.length <= 2) {
+            value = `(${value}`;
+        } else if (value.length <= 7) {
+            value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+        } else {
+            value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
         }
         
-        setFormData({ ...formData, telefone: formatted });
+        setFormData({ ...formData, telefone: value });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -79,21 +78,8 @@ export default function Contato() {
         }
     };
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
     return (
-        <section id="contato" className="py-20 bg-zinc-950 relative">
-            <button
-                onClick={scrollToTop}
-                className="absolute bottom-8 right-8 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-black hover:bg-yellow-400 transition-colors cursor-pointer"
-                aria-label="Voltar ao topo"
-            >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                </svg>
-            </button>
+        <section id="contato" className="py-20 bg-zinc-950">
             <div className="max-w-6xl mx-auto px-6">
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
                     Contato
