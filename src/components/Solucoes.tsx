@@ -30,7 +30,7 @@ export default function Solucoes() {
     };
 
     return (
-        <section className="py-20 bg-zinc-50">
+        <section id="solucoes" className="py-20 bg-zinc-50">
             <div className="max-w-6xl mx-auto px-6">
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-zinc-900 mb-4">
                     Soluções audiovisuais para empresas

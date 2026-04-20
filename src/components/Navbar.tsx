@@ -14,6 +14,7 @@ export default function Navbar() {
             setScrolled(window.scrollY > 50);
         };
         window.addEventListener("scroll", handleScroll);
+        handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
@@ -42,13 +43,13 @@ export default function Navbar() {
                     <div className="hidden md:flex items-center gap-8">
                         <Link
                             href="/#portfolio"
-                            className="text-white hover:text-red-500 transition-colors font-medium"
+                            className="text-white hover:text-yellow-500 transition-colors font-medium"
                         >
                             Portfólio
                         </Link>
                         <Link
                             href="/#solucoes"
-                            className="text-white hover:text-red-500 transition-colors font-medium"
+                            className="text-white hover:text-yellow-500 transition-colors font-medium"
                         >
                             Soluções
                         </Link>
