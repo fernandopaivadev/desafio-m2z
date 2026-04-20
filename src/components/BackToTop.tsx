@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function BackToTop() {
+    const pathname = usePathname();
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -13,15 +15,15 @@ export default function BackToTop() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    if (pathname.startsWith("/admin")) {
+        return null;
+    }
 
     if (!visible) return null;
 
     return (
         <button
-            onClick={scrollToTop}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="fixed bottom-6 right-6 z-50 bg-yellow-500 hover:bg-yellow-400 text-black w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all transform hover:scale-110"
             aria-label="Voltar ao topo"
         >
