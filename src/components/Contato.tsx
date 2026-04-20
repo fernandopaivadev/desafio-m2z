@@ -37,7 +37,7 @@ export default function Contato() {
             return;
         }
         
-        let value = digits.slice(0, 11);
+        const value = digits.slice(0, 11);
         let formatted = "";
         
         for (let i = 0; i < value.length; i++) {
